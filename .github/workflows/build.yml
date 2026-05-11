@@ -52,11 +52,10 @@ jobs:
       - name: Make plugin_repackaging.sh executable
         run: chmod +x ./plugin_repackaging.sh
 
-      # ====================== 我加的修复代码 ======================
-      - name: Fix pandas version in plugin_repackaging.sh
+      # 🔥 🔥 🔥 真正修复：自动注入替换 pandas 版本 🔥 🔥 🔥
+      - name: Inject pandas fix into repackage script
         run: |
-          sed -i 's/pandas~=3.0.1/pandas~=2.2.3/g' plugin_repackaging.sh
-      # ============================================================
+          sed -i 's|pip install -r|sed -i "s/pandas~=3.0.1/pandas~=2.2.3/" requirements.txt \&\& pip install -r|' plugin_repackaging.sh
 
       - name: Run plugin repackaging script
         run: |
